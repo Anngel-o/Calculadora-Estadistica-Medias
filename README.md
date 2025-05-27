@@ -23,6 +23,7 @@ Esta herramienta permite simular cómo se comportan las medias muestrales al tom
 - **HTML5** – Estructura de la aplicación
 - **CSS3** – Estilos y diseño responsivo
 - **JavaScript (vanilla)** – Lógica de simulación, cálculo y visualización
+- **Chart.js** – Librería para generación de gráficas dinámicas y visualización de datos
 
 ## 🤖 Asistencia por inteligencia artificial
 
