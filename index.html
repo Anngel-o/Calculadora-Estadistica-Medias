@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Distribución Muestral de Medias</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <div class="logo-container">
+          <div class="logo-placeholder">
+            <img src="imgs/escudo-fing.png" alt="Logo UACH" width="110px" />
+          </div>
+        </div>
+        <div class="title-container">
+          <h1>Estadística UACH</h1>
+          <h2>Distribución Muestral de Medias</h2>
+          <div class="author-info">
+            <p>José Ángel Ortiz Meraz - 353195</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="calculator-section">
+        <div class="calculator-container">
+          <div class="input-section">
+            <h3>Parámetros de la Población</h3>
+            <div class="input-group">
+              <label for="mean">Media Poblacional (μ):</label>
+              <input type="number" id="mean" step="any" placeholder="Ej. 50" />
+            </div>
+            <div class="input-group">
+              <label for="stdDev">Desviación Estándar Poblacional (σ):</label>
+              <input
+                type="number"
+                id="stdDev"
+                step="any"
+                placeholder="Ej. 10"
+                min="0"
+              />
+            </div>
+            <div class="input-group">
+              <label for="sampleSize">Tamaño de Muestra (n):</label>
+              <input
+                type="number"
+                id="sampleSize"
+                placeholder="Ej. 30"
+                min="1"
+              />
+            </div>
+
+            <div class="input-group">
+              <button
+                id="toggleFinitePopulation"
+                class="btn-population"
+                type="button"
+              >
+                <i class="fas fa-calculator"></i> Población Finita
+              </button>
+            </div>
+
+            <div
+              id="finitePopulationSection"
+              class="input-group"
+              style="display: none"
+            >
+              <label for="populationSize">Tamaño de Población (N):</label>
+              <input
+                type="number"
+                id="populationSize"
+                placeholder="Ej. 1000"
+                min="2"
+              />
+              <small class="hint">Requerido cuando n > 5% de N</small>
+            </div>
+
+            <h3>Probabilidad a Calcular</h3>
+            <div class="probability-options">
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  id="lessThan"
+                  name="probability"
+                  value="lessThan"
+                  checked
+                />
+                <label for="lessThan">P(X̄ ≤ valor)</label>
+              </div>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  id="greaterThan"
+                  name="probability"
+                  value="greaterThan"
+                />
+                <label for="greaterThan">P(X̄ ≥ valor)</label>
+              </div>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  id="between"
+                  name="probability"
+                  value="between"
+                />
+                <label for="between">P(valor1 ≤ X̄ ≤ valor2)</label>
+              </div>
+            </div>
+
+            <div class="input-group" id="value1Group">
+              <label for="value1">Valor:</label>
+              <input
+                type="number"
+                id="value1"
+                step="any"
+                placeholder="Ej. 48"
+              />
+            </div>
+            <div class="input-group" id="value2Group" style="display: none">
+              <label for="value2">Valor 2:</label>
+              <input
+                type="number"
+                id="value2"
+                step="any"
+                placeholder="Ej. 52"
+              />
+            </div>
+
+            <button id="calculateBtn" class="btn-calculate">
+              Calcular Probabilidad
+            </button>
+          </div>
+
+          <div class="results-section">
+            <h3>Resultados</h3>
+            <div class="result-card">
+              <h4>Distribución Muestral</h4>
+              <p>Media (μ<sub>X̄</sub>): <span id="sampleMeanResult">-</span></p>
+              <p>
+                Error Estándar (σ<sub>X̄</sub>):
+                <span id="stdErrorResult">-</span>
+              </p>
+              <p id="correctionInfo" style="display: none">
+                (con corrección para población finita)
+              </p>
+            </div>
+            <div class="result-card">
+              <h4>Probabilidad</h4>
+              <p>Resultado: <span id="probabilityResult">-</span></p>
+              <div class="z-score-display">
+                <p>Valor(es) de Z: <span id="zScoreResult">-</span></p>
+              </div>
+            </div>
+            <div class="graph-container">
+              <canvas id="distributionGraph"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- <section class="theory-section">
+        <h3>Teoría: Distribución Muestral de Medias</h3>
+        <div class="theory-content">
+          <p>
+            La distribución muestral de medias es la distribución de
+            probabilidad de las medias de todas las muestras posibles de un
+            tamaño dado (n) tomadas de una población.
+          </p>
+
+          <h4>Propiedades:</h4>
+          <ul>
+            <li>
+              La media de la distribución muestral (μ<sub>X̄</sub>) es igual a la
+              media poblacional (μ).
+            </li>
+            <li>
+              El error estándar de la media (σ<sub>X̄</sub>) es igual a σ/√n para
+              poblaciones infinitas o muestras pequeñas (&lt;5% de N).
+            </li>
+            <li>
+              Para poblaciones finitas con muestras grandes (&gt;5% de N), se
+              aplica el factor de corrección: σ/√n * √[(N-n)/(N-1)]
+            </li>
+            <li>
+              Si n ≥ 30 o la población es normal, la distribución muestral será
+              aproximadamente normal (Teorema del Límite Central).
+            </li>
+          </ul>
+
+          <h4>Fórmulas:</h4>
+          <div class="formulas">
+            <div class="formula-item">
+              <p>Media muestral:</p>
+              <p class="formula">μ<sub>X̄</sub> = μ</p>
+            </div>
+            <div class="formula-item">
+              <p>Error estándar (población infinita):</p>
+              <p class="formula">σ<sub>X̄</sub> = σ/√n</p>
+            </div>
+            <div class="formula-item">
+              <p>Error estándar (población finita):</p>
+              <p class="formula">σ<sub>X̄</sub> = σ/√n * √[(N-n)/(N-1)]</p>
+            </div>
+            <div class="formula-item">
+              <p>Valor de Z:</p>
+              <p class="formula">Z = (X̄ - μ) / σ<sub>X̄</sub></p>
+            </div>
+          </div>
+        </div>
+      </section> -->
+    </main>
+
+    <footer>
+      <p>© 2025 Estadística UACH - José Ángel Ortiz Meraz - 353195</p>
+      <p>Aplicación desarrollada para el curso de Estadística</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts.js"></script>
+  </body>
+</html>
