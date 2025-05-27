@@ -2,6 +2,8 @@
 
 Una aplicación interactiva construida con **HTML, CSS y JavaScript** para calcular, visualizar y comprender la **distribución muestral de la media** a partir de parámetros poblacionales.
 
+https://anngel-o.github.io/Calculadora-Estadistica-Medias/
+
 ## 📌 Descripción
 
 Esta herramienta permite simular cómo se comportan las medias muestrales al tomar múltiples muestras de una población. Es útil para estudiantes, docentes o cualquier persona interesada en comprender de forma visual e intuitiva el **Teorema del Límite Central** y los fundamentos de la estadística inferencial.
